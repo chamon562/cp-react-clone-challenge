@@ -46,11 +46,24 @@ const Main = styled.div`
 `
 
 const SearchContainer = styled.div`
-
+    min-width: 400px;
 `
 
 const Search = styled.div`
-
+    width: 100%;
+    box-shadow: inset 0 0 0 1px rgb(104 74 104);
+    border-radius: 6px;
+    input{
+        background-color: transparent;
+        border: none; 
+        padding-left: 8px;
+        padding-right: 8px;
+        color: #fff;
+    }
+    /* takes outline off the border when clicking on the input */
+    input:focus{
+        outline: none
+    }
 `
 
 const UserContainer = styled.div`

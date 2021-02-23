@@ -48,7 +48,6 @@ const Container = styled.div`
 // main is the container for the sidebar chat
 // 
 const Main = styled.div`
-  background: pink;
   display: grid; 
   /* grid-template-columns: width of first width of 2nd column */
   grid-template-columns: 260px auto;
