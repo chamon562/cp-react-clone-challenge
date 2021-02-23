@@ -53,6 +53,8 @@ const Search = styled.div`
     width: 100%;
     box-shadow: inset 0 0 0 1px rgb(104 74 104);
     border-radius: 6px;
+    display: flex; 
+    align-items: center;
     input{
         background-color: transparent;
         border: none; 
@@ -69,12 +71,22 @@ const Search = styled.div`
 const UserContainer = styled.div`
     display: flex; 
     align-items: center; 
+    padding-right: 16px;
 `
 
 const Name = styled.div`
-
+    padding-right: 16px;
 `
 
 const UserImage = styled.div`
-    
+    /* image is overflowing need to fix */
+    width: 28px; 
+    height: 28px; 
+    border: 2px solid #fff; 
+    border-radius: 3px;
+    img{
+        /* this changed the image icon to fit inside the bar */
+        width: 100%;
+
+    }
 `
