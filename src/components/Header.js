@@ -35,18 +35,26 @@ const Container = styled.div`
     color: #fff;
     display: flex;
     align-items: center; 
-    justify-content: space-between;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 1px 0 0 rgb(255 255 255)
 `
 
 const Main = styled.div`
 /* display: flex allows us to order a layout */
 /* go to flexbox to mess with all different themes */
     display: flex;
+    margin-right: 16px;
+    margin-left: 16px;
 
 `
 
 const SearchContainer = styled.div`
     min-width: 400px;
+    /* the outward spacing is margin */
+    margin-left: 16px;
+    margin-right: 16px;
 `
 
 const Search = styled.div`
@@ -72,6 +80,7 @@ const UserContainer = styled.div`
     display: flex; 
     align-items: center; 
     padding-right: 16px;
+    position: absolute;
 `
 
 const Name = styled.div`
