@@ -1,11 +1,13 @@
 import React from 'react'
 
-function Chat() {
+function Login() {
     return (
+
         <div>
-            <h1>Chat</h1>
+            <h1>Login</h1>
         </div>
     )
+
 }
 
-export default Chat
+export default Login
