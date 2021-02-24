@@ -7,7 +7,7 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import PeopleIcon from '@material-ui/icons/People';
 import AppsIcon from '@material-ui/icons/Apps';
 // export an array of objects
-export const sidebarItems = [
+export const sidebarItemsData = [
     {
         icon: <MessageIcon />,
         text: "Thread"

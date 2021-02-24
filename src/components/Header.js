@@ -37,8 +37,7 @@ const Container = styled.div`
     align-items: center; 
     justify-content: center;
     position: relative;
-    z-index: 10;
-    box-shadow: 0 1px 0 0 rgb(255 255 255)
+    box-shadow: 0 1px 0 0 rgb(255 255 255 /10%);
 `
 
 const Main = styled.div`
@@ -58,8 +57,8 @@ const SearchContainer = styled.div`
 `
 
 const Search = styled.div`
-    width: 100%;
     box-shadow: inset 0 0 0 1px rgb(104 74 104);
+    width: 100%;
     border-radius: 6px;
     display: flex; 
     align-items: center;
@@ -68,6 +67,8 @@ const Search = styled.div`
         border: none; 
         padding-left: 8px;
         padding-right: 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         color: #fff;
     }
     /* takes outline off the border when clicking on the input */
@@ -81,6 +82,7 @@ const UserContainer = styled.div`
     align-items: center; 
     padding-right: 16px;
     position: absolute;
+    right: 0;
 `
 
 const Name = styled.div`
