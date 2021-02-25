@@ -4,7 +4,9 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { sidebarItemsData } from '../data/SidebarData'
 import AddIcon from '@material-ui/icons/Add';
 
-function SideBar() {
+function SideBar(props) {
+    // props stand for property this is how data is passed around
+    // console.log(props.rooms[0].name)
     return (
         <Container>
             <WorkspaceContainer>
@@ -38,12 +40,16 @@ function SideBar() {
                     <AddIcon />
                 </NewChannelContainer>
                 <ChannelsList>
-                    <Channel>
-                        # Channel 1
-                            </Channel>
-                    <Channel>
-                        # Channel 2
-                            </Channel>
+                    {/* use jsx functionality */}
+                    {/* map through one item to get one room and it will return channel */}
+                    {props.rooms.map(item => (
+                        <Channel>
+                            {/* to grab the attribute grab the object. the attribute name */}
+                            #{item.name}
+                        </Channel>
+                    ))}
+                    {/* replace with database id */}
+
                 </ChannelsList>
             </ChannelsContainer>
         </Container>

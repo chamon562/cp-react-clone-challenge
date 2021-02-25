@@ -5,15 +5,59 @@ import Login from './components/Login'
 import styled from 'styled-components'
 import Header from './components/Header'
 import SideBar from './components/SideBar';
-
+import db from './components/firebase'
+import { useEffect, useState } from 'react'
 function App() {
+  // useState has the value itself  and the function to change it
+  // in useState pass in the array 
+  // useState is like creating a new database 
+  // and its creating it just for App component
+  // the data for this section is the rooms and the setRooms is function that changes the data in the section
+  // since have rooms here, it can be passed down to multiple components
+  // taking rooms and passing it into the Sidebar.js by going to <Sidebar rooms={rooms} />
+  // now the data is passed from App.js to Sidebar.js, and once in Sidebar.js make sure to pass in props to the component.
+  // inside Sidebar.js function Sidebar(props){...}
+  const [ rooms, setRooms] = useState([]) 
+  
+  
+  // create a getchannels function
+  // Also known as ***** WEB HOOK **** 
+  // Every time firebase gets updated it hits the snapshot function to run again
+  const getChannels = () => {
+    // how do i grab the channels 
+    // exported db from the firebase.js
+    // to get a database collection from firebase
+    // db.collections('the name of the databse collection created was room')
+    // onSnapShot is like taking a picture of the datbase. contains the data inside the collection
+    db.collection('rooms').onSnapshot((snapshot) => {
+      // console.log(snapshot.docs) 
+      // snapshot data snapshot.docs.map() loop through doc
+      setRooms(snapshot.docs.map((doc) =>{
+        // console.log(doc.data()) to check to see if getting data frmo the doc
+        // console.log(doc.data())
+        // return doc.data(); //gives an array of objects of the rooms 
+        // getting the unique id
+        return {id: doc.id, name: doc.data().name}
+        // need to save the data now and use useState
+      }))
+    })
+  }
+  // getChannels() is calling itself over and over so to stop that use useEffect
+  // this only calls the function only when initialized
+  useEffect(() => {
+    // take getChannels and put inside useEffect to be called once initialize
+    getChannels();
+  }, [])
+
+  console.log(rooms)
+
   return (
     <div className="App">
       <Router>
         <Container>
           <Header />
           <Main>
-            <SideBar />
+            <SideBar rooms={rooms} />
 
 
 
