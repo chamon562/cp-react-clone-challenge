@@ -7,6 +7,7 @@ import Header from './components/Header'
 import SideBar from './components/SideBar';
 import db from './components/firebase'
 import { useEffect, useState } from 'react'
+
 function App() {
   // useState has the value itself  and the function to change it
   // in useState pass in the array 
@@ -17,9 +18,12 @@ function App() {
   // taking rooms and passing it into the Sidebar.js by going to <Sidebar rooms={rooms} />
   // now the data is passed from App.js to Sidebar.js, and once in Sidebar.js make sure to pass in props to the component.
   // inside Sidebar.js function Sidebar(props){...}
-  const [ rooms, setRooms] = useState([]) 
-  
-  
+  const [rooms, setRooms] = useState([])
+
+  // only if logged in if the user is there
+  // create state for user this will be where user gets stored
+  const [user, setUser] = useState()
+
   // create a getchannels function
   // Also known as ***** WEB HOOK **** 
   // Every time firebase gets updated it hits the snapshot function to run again
@@ -32,12 +36,12 @@ function App() {
     db.collection('rooms').onSnapshot((snapshot) => {
       // console.log(snapshot.docs) 
       // snapshot data snapshot.docs.map() loop through doc
-      setRooms(snapshot.docs.map((doc) =>{
+      setRooms(snapshot.docs.map((doc) => {
         // console.log(doc.data()) to check to see if getting data frmo the doc
         // console.log(doc.data())
         // return doc.data(); //gives an array of objects of the rooms 
         // getting the unique id
-        return {id: doc.id, name: doc.data().name}
+        return { id: doc.id, name: doc.data().name }
         // need to save the data now and use useState
       }))
     })
@@ -53,24 +57,27 @@ function App() {
 
   return (
     <div className="App">
+      {/* check if user exist */}
       <Router>
-        <Container>
-          <Header />
-          <Main>
-            <SideBar rooms={rooms} />
-
-
-
-            <Switch>
-              <Route path="/room">
-                <Chat />
-              </Route>
-              <Route path="/">
-                <Login />
-              </Route>
-            </Switch>
-          </Main>
-        </Container>
+        {/* turnerary if there is no user show Login else show all the content created */}
+        {
+          !user ? <Login />
+            :
+            <Container>
+              <Header />
+              <Main>
+                <SideBar rooms={rooms} />
+                <Switch>
+                  <Route path="/room">
+                    <Chat />
+                  </Route>
+                  <Route path="/">
+                    <Login />
+                  </Route>
+                </Switch>
+              </Main>
+            </Container>
+        }
       </Router>
     </div>
   );
