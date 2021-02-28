@@ -1,21 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function ChatMessage() {
+function ChatMessage({ text, name, image, timestamp }) {
+    console.log(text)
     return (
         <Container>
             <UserAvatar>
-                <img src="https://randomuser.me/api/portraits/women/25.jpg" />
+                <img src={image} />
             </UserAvatar>
             <MessageContent>
                 <Name>
-                    Channee Math
+                    {name}
                     <span>
-                        2/25/20201 11:34am
+                        {/* timestamp was giving an 
+                        Error: Objects are not valid as a React child (found: object with keys 
+                        {seconds, nanoseconds}). If you meant to render a collection of children, use an array instead. 
+                        and this error was highlighting the setMessage state in Chat.js when the issue is here 
+                        so this new Date(timestamp.toDate() made it into an object and needed to convert to a string using .toUTCString()
+                        {new Date(timestamp.toDate()).toTUCString()}*/}
+                        {new Date(timestamp.toDate()).toUTCString()}
+                        {/* {new Date(timestamp.toDate())} */}
                     </span>
                 </Name>
                 <Text>
-                    Best Challenge ever
+                    {text}
                 </Text>
             </MessageContent>
         </Container>

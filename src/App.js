@@ -5,8 +5,10 @@ import Login from './components/Login'
 import styled from 'styled-components'
 import Header from './components/Header'
 import SideBar from './components/SideBar';
-import db from './components/firebase'
+import db from './firebase'
 import { useEffect, useState } from 'react'
+// since we used auth to sign in will use auth to sign out
+import { auth, provider } from './firebase'
 
 function App() {
   // useState has the value itself  and the function to change it
@@ -18,12 +20,22 @@ function App() {
   // taking rooms and passing it into the Sidebar.js by going to <Sidebar rooms={rooms} />
   // now the data is passed from App.js to Sidebar.js, and once in Sidebar.js make sure to pass in props to the component.
   // inside Sidebar.js function Sidebar(props){...}
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState([]);
 
   // only if logged in if the user is there
   // create state for user this will be where user gets stored
-  const [user, setUser] = useState()
-
+  // user is currently in the app state setUser function is what actually sets the user
+  // can use this user to put the name and photo in the header
+  // so pass in user to the Header component so it gets the user as a prop
+  // getting localStorage.JSON.parse.getItem('user')
+  // get the local storage.getItem('user') need to parse it and covert back to an object JSON.parse(localStorage.getItem('user')) because getItem('user') is a string
+  // convert from string to an object JSON.parse
+  // now when restarting the app it doesnt set back to log in.
+  // the state might be gone but local storage is still there
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  // now can use this user object anywhere needed
+  console.log("user in App state", user);
+  // pass in the setUser function into the Login component down below
   // create a getchannels function
   // Also known as ***** WEB HOOK **** 
   // Every time firebase gets updated it hits the snapshot function to run again
@@ -46,14 +58,30 @@ function App() {
       }))
     })
   }
-  // getChannels() is calling itself over and over so to stop that use useEffect
+
+  const signOut = () => {
+    auth.signOut()
+      .then(() => {
+        // will do 2 things setUser(null)
+        // delete it from localstorage
+        // remove user from local storage and from the state as well
+        localStorage.removeItem('user');
+        // setUser(null) because dont want it in our local storage anymore
+        // setUser() will only change in the state
+        setUser(null);
+      })
+      .catch(error => {
+        alert(error)
+      })
+
+  }  // getChannels() is calling itself over and over so to stop that use useEffect
   // this only calls the function only when initialized
   useEffect(() => {
     // take getChannels and put inside useEffect to be called once initialize
     getChannels();
   }, [])
 
-  console.log(rooms)
+  // console.log(rooms)
 
   return (
     <div className="App">
@@ -61,18 +89,21 @@ function App() {
       <Router>
         {/* turnerary if there is no user show Login else show all the content created */}
         {
-          !user ? <Login />
+          !user ? <Login setUser={setUser} />
             :
             <Container>
-              <Header />
+              <Header signOut={signOut} user={user} />
               <Main>
                 <SideBar rooms={rooms} />
                 <Switch>
-                  <Route path="/room">
-                    <Chat />
+                  <Route path="/room/:channelId">
+                    <Chat user={user}/>
                   </Route>
+                  {/* last channel always has to be the root because as its going through other  */}
                   <Route path="/">
-                    <Login />
+                    Select or Create channel
+                    {/* once setUser has been passed to Login Component go to Login and pass in props to get it */}
+                    {/* <Login/> */}
                   </Route>
                 </Switch>
               </Main>
@@ -93,7 +124,9 @@ const Container = styled.div`
   display: grid;
   /* grid-template-rows: height height */
   /* auto fills out the rest of it */
-  grid-template-rows: 38px auto;
+  /* fix with the whole thing scrolling with minmax(0, 1fr) */
+  /* 1fr is 1 free space the min is zero the max is 1 free space auto makes it fill up to how much the content fills up the free space is is only going to take up the space on screen */
+  grid-template-rows: 38px minmax(0, 1fr);
 `
 
 // main is the container for the sidebar chat

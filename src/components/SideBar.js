@@ -3,19 +3,30 @@ import styled from 'styled-components'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { sidebarItemsData } from '../data/SidebarData'
 import AddIcon from '@material-ui/icons/Add';
-import db from './firebase'
+import db from '../firebase'
+import { useHistory } from 'react-router-dom'
 
 function SideBar(props) {
     // props stand for property this is how data is passed around
     // console.log(props.rooms[0].name)
-    
+
+    // initialize hisotry 
+    const history = useHistory();
+
+    const goToChannel = (id) => {
+        if (id) {
+            console.log(id);
+            // take them to a room
+            history.push(`/room/${id}`)
+        }
+    }
     // adding a Channel update the list call databse because databse has the list
     // this will be called when user pushes the plus sign
-    const addChannel = () =>{
+    const addChannel = () => {
         // prompt the user for the channel
         const promptName = prompt('Enter Channel name');
         // console.log(promptName)
-        if(promptName){
+        if (promptName) {
             // db.collection get the rooms collection .add then an object and the object is going to be {name:
             db.collection('rooms').add({
                 // db will generate its own id and the key mad is name: promptName
@@ -60,7 +71,7 @@ function SideBar(props) {
                     {/* use jsx functionality */}
                     {/* map through one item to get one room and it will return channel */}
                     {props.rooms.map(item => (
-                        <Channel>
+                        <Channel onClick={() => goToChannel(item.id)}>
                             {/* to grab the attribute grab the object. the attribute name */}
                             #{item.name}
                         </Channel>

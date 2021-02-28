@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import {auth, provider} from  './firebase'
+import {auth, provider} from  '../firebase'
 
-function Login() {
+function Login(props) {
+    console.log(props)
     const signIn = () =>{
         // provider gives us a promise that will give us some data later on
         // the promise is that naz is going to give some data in the later date its going to take some time
@@ -12,8 +13,30 @@ function Login() {
         // .then is when you accept the promise when given the data
         // in the promise i get the data call the result aka res
         .then((result) =>{
+            // when signIn lets create a new user
+            const newUser = {
+                name: result.user.displayName,
+                photo: result.user.photoURL
+            }
+            // whenever logged in 
+            // pass in newUser to the state of the app
+            // we will now have that state
+            // localStorage accepts JSON string JSON
+            // this newUser is an object initialy in javascript convert it to a string using JSON.stringify and itll be saved in localstorage
+            // now the newUser is stored in the localStorage but when refreshed still takes back to log in so inside app.js go to useState of user inside the default value of when the app start
+            // get the local storage.getItem('user') need to parse it and covert back to an object JSON.parse because getItem('user') is a string
+            localStorage.setItem('user', JSON.stringify(newUser))
+            props.setUser(newUser)
+            console.log(props.setUser(newUser))
             // to see the user
             console.log(result.user)
+            // to see the newUser
+            console.log(newUser)
+            // need to save this new user in the state
+            // a state for example say we have a component the state is the app and
+            // every single component has its own state its kind of like a database
+            // state(data) I can create a one element and another etc and it will remember that data
+            // the goal is to be able to add a user to the state so we can remember who the user is
         })
         // .catch is for when did not get data some error happens when promise is broken
         .catch((error) =>{
